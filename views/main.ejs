@@ -1,5 +1,71 @@
 <%- include('templates/header.ejs') %>
+
     <main>
-        <h1>main</h1>
+
+        <figure>
+            
+            <h1 id="name_app">Rivas Roller</h1>
+        </figure> 
+
+        
+
+
+        <div class="publish">
+            <input type="search" name="search" placeholder="Search">
+        </div>
+
+
+        <!--Publicación-->
+    <div class="content_publish">
+ 
+        <div class="user_profile">
+            <img id="img_avatar" src="img/usuario.png" alt="Imagen de usuario">
+            <p id="user">Name user</p>
+        </div>
+ 
+ 
+        <figure>
+            <img id="img_user" src="img/photo.jpg" alt="Imagen de publicación">
+        </figure>  
+       
+ 
+       
+        <div class="like_and_coment">
+            <i class="fa-solid fa-heart"></i>
+            <span id="number1">1</span>
+ 
+            <link rel="coment">
+            <i class="fa-solid fa-comment"></i>
+            <span id="number2">2</span>
+        </div>
+ 
+        <div class="publish_text">
+            <p>Les gusta a Maria y 3 personas <a href="#">Más</a> </p>
+        </div>
+ 
+        <div class="publish_text_more_like">
+            <p>Comentarios con mas like</p>
+        </div>
+ 
+        <div class="publish_text_all_comments">
+            <a href="#">Mostrar los demás comentarios</a>
+        </div>
+ 
+        <div class="time_publish">
+            <p>Hace 2 horas</p>
+        </div>
+ 
+       
+ 
+       
+       
+ 
+ 
+    </div>
+
+
+
+
     </main>
+
     <%- include('templates/footer.ejs') %>
