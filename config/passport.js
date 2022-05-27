@@ -25,7 +25,7 @@ passport.use('google', new GoogleStrategy({
     console.log(profile)
     User.find({ email: profile.email }, async function(err, user) {
         if (user.length > 0) { return done(null, user) };
-        newUser = new User({ email: profile.email, username: profile.email.substring(0, profile.email.lastIndexOf("@")), phone: '123456789' });
+        newUser = new User({ email: profile.email, username: profile.email.substring(0, profile.email.lastIndexOf("@")) });
         newUser.setPassword(profile.id);
         await newUser.save();
         User.find({ email: profile.email }, async function(err, user) {
