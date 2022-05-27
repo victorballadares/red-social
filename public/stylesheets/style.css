@@ -1,3 +1,105 @@
-* {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
+*{
+    font-family: 'Fira Sans', sans-serif;
+}
+ 
+body{
+ 
+    margin-left: 70px;
+    background-color: black;
+}
+ 
+ 
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 84vh;
+    width: 76%;
+    padding: 23px 5%;
+    margin-right: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-radius: 59px;
+    box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
+    -webkit-box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
+    -moz-box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
+    background: #2980B9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+ 
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+ 
+form input{
+    width: 66%;
+    font-size: 1em;
+    margin: 9px;
+    padding: 5px;
+    border: none;
+    outline: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid #fcfbfb;
+   
+}
+ 
+form input[type="text"]{
+    background-image: url(../img/user.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
+ 
+form input[type="password"]{
+    background-image: url(../img/password.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
+form input[type="email"]{
+    background-image: url(../img/email.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
+
+form input[type="tel"]{
+    background-image: url(../img/phone.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
+ 
+form button{
+    background-color: #2c8FE8;
+    border: none;
+    border-radius: 19px;
+    color:white;
+    margin: 10px;
+    width: 100px;
+}
+ 
+button{
+    background-color: #2c8FE8;
+    border: none;
+    border-radius: 19px;
+    color:white;
+    margin: 10px;
+    height: 29px;
+    font-size: 14px;
+   
+}
+main figure{
+    display: flex;
+    justify-content: center;
+}
+ 
+#name_app{
+    margin-top: -5px;
+    text-align: center;
 }
