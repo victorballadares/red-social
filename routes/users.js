@@ -79,8 +79,7 @@ router.get('/forgotpassword', async(req, res, next) => {
     res.render('forgotpassword');
 });
 
-//rivasroller35@gmail.com
-//qlnlorcpywhygaur
+
 
 router.post('/forgotpassword', async(req, res, next) => {
     User.find({ email: req.body.email }, async function(err, user) {
