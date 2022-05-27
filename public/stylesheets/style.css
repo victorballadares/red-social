@@ -1,7 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Crete+Round&display=swap');
-
 *{
     font-family: 'Fira Sans', sans-serif;
 }
@@ -18,10 +15,10 @@ main{
     justify-content: center;
     height: 84vh;
     width: 76%;
-    padding: 23px 5%;
+    padding: 6px 5%;
     margin-right: auto;
     margin-right: auto;
-    margin-top: 50px;
+    margin-top: 33px;
     border-radius: 59px;
     background: #1c92d2;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
@@ -32,6 +29,7 @@ main{
 
 main #img_title{
     width: 230px;
+    margin-bottom: -10px;
 }
 
 #titulo{
@@ -96,11 +94,11 @@ main input{
    
 }
 .publish{
-    justify-content: center;
+    text-align: center;
     margin: 0;
 }
  .publish input[type="search"]{
-    background-image: url(../img/phone.png);
+    background-image: url(../img/search.png);
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
@@ -116,7 +114,7 @@ main input{
 
 
 .content_publish #img_user{
-    width: 160%;
+    width: 153%;
     height: 140%;
     margin-top: -25px;
 }
@@ -147,7 +145,7 @@ main input{
 }
 
 .publish_text_more_like{
-    padding: 4px;
+    padding: -4px;
 }
  
 .publish_text_all_comments {
@@ -161,8 +159,6 @@ main input{
  
 #name_app{
     margin-top: -35px;
-    font-family: 'BIZ UDPMincho', serif;
-font-family: 'Crete Round', serif;
 }
  
 .like_and_coment{
