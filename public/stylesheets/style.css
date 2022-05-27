@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Crete+Round&display=swap');
+
 *{
     font-family: 'Fira Sans', sans-serif;
 }
@@ -6,7 +9,6 @@
 body{
  
     margin-left: 70px;
-    background-color: black;
 }
  
  
@@ -21,12 +23,19 @@ main{
     margin-right: auto;
     margin-top: 50px;
     border-radius: 59px;
-    box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
-    -webkit-box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
-    -moz-box-shadow: -5px 4px 17px 6px rgba(47,70,201,0.48);
-    background: #2980B9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #1c92d2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-box-shadow: 3px 5px 41px 11px rgba(20,11,12,0.63); 
+    box-shadow: 3px 5px 41px 11px rgba(20,11,12,0.63);   
+}
+
+main #img_title{
+    width: 230px;
+}
+
+#titulo{
+    font-family: Helvetica;
 }
  
 form{
@@ -74,6 +83,97 @@ form input[type="tel"]{
     background-position: right;
     background-size: contain;
 }
+main input{
+    width: 66%;
+    text-align: center;
+    font-size: 1em;
+    margin: 9px;
+    padding: 5px;
+    border: none;
+    outline: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid #fcfbfb;
+   
+}
+.publish{
+    justify-content: center;
+    margin: 0;
+}
+ .publish input[type="search"]{
+    background-image: url(../img/phone.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
+
+.user_profile #img_avatar{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 25px;
+}
+
+
+
+.content_publish #img_user{
+    width: 160%;
+    height: 140%;
+    margin-top: -25px;
+}
+ 
+.content_publish .user_profile{
+   display: flex;
+   margin: 0px;
+}
+ 
+.content_publish .user_profile img{
+    margin: 10px;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50% ;
+    border: 2px solid black;
+}
+ 
+.img_avatar{
+    width: 90px;
+    height: 60px;
+}
+
+.content_publish #img_user{
+    width: 157%;
+    height: 154%;
+    margin-top: -20px;
+}
+
+.publish_text_more_like{
+    padding: 4px;
+}
+ 
+.publish_text_all_comments {
+    margin:  0px;
+    margin-top: -13px;
+}
+ 
+.time_publish{
+    margin-top: -10px;
+}
+ 
+#name_app{
+    margin-top: -35px;
+    font-family: 'BIZ UDPMincho', serif;
+font-family: 'Crete Round', serif;
+}
+ 
+.like_and_coment{
+    line-height: 15px;
+}
+.like_and_coment span{
+    margin: 10px;
+}
+ 
+
+
  
 form button{
     background-color: #2c8FE8;
@@ -100,6 +200,6 @@ main figure{
 }
  
 #name_app{
-    margin-top: -5px;
+    margin-top: -45px;
     text-align: center;
 }
