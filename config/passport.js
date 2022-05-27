@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
@@ -15,12 +16,28 @@ passport.use('signin', new LocalStrategy({
     }).catch(done);
 }));
 
+passport.use('google', new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost/users/google/callback',
+    passReqToCallback: true
+}, async(request, accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+    User.find({ email: profile.email }, async function(err, user) {
+        if (user.length > 0) { return done(null, user) };
+        newUser = new User({ email: profile.email, username: profile.email.substring(0, profile.email.lastIndexOf("@")), phone: '123456789' });
+        newUser.setPassword(profile.id);
+        await newUser.save();
+        User.find({ email: profile.email }, async function(err, user) {
+            return done(null, user);
+        });
+    });
+}));
+
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    done(null, user)
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
+passport.deserializeUser((user, done) => {
+    done(null, user)
 });

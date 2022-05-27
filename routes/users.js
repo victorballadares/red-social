@@ -19,13 +19,38 @@ router.post('/signin',
             const token = jwt.sign({ user: body }, process.env.SECRET);
             return res.cookie('token', token).redirect('/main');
         });
-    });
+    }
+);
 
 router.get('/signup', (req, res, next) => {
     res.render('signup', {
         error: req.flash("error"),
     });
 });
+
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/', failureFlash: true }),
+    (req, res) => {
+        const user = new User(req.user);
+        req.login(user, { session: false }, async(err) => {
+            if (err) return next(err);
+            const body = { _id: user._id, username: user.username };
+            const token = jwt.sign({ user: body }, process.env.SECRET);
+            return res.cookie('token', token).redirect('/main');
+        });
+    }
+);
+
+router.get('/google',
+    passport.authenticate('google', {
+        scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/user.phonenumbers.read',
+            'https://www.googleapis.com/auth/user.gender.read',
+        ]
+    })
+);
 
 router.post('/signup', async(req, res, next) => {
     let info = {
