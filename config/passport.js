@@ -22,7 +22,6 @@ passport.use('google', new GoogleStrategy({
     callbackURL: 'http://localhost/users/google/callback',
     passReqToCallback: true
 }, async(request, accessToken, refreshToken, profile, done) => {
-    console.log(profile)
     User.find({ email: profile.email }, async function(err, user) {
         if (user.length > 0) { return done(null, user) };
         newUser = new User({ email: profile.email, username: profile.email.substring(0, profile.email.lastIndexOf("@")) });

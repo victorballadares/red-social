@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, lowercase: true, unique: true, required: [true, "cant be blank."], match: [/\S+@\S+\.\S+/, 'not valid.'], index: true },
     phone: { type: String },
     hash: String,
-    salt: String
+    salt: String,
+    follows: Object
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: 'in use.' });

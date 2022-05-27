@@ -32,7 +32,7 @@ router.get('/signup', (req, res, next) => {
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/', failureFlash: true }),
     (req, res) => {
-        const user = new User(req.user);
+        const user = req.user[0];
         req.login(user, { session: false }, async(err) => {
             if (err) return next(err);
             const body = { _id: user._id, username: user.username };

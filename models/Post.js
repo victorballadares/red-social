@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema({
     img: String,
     title: String,
-    likes: {},
-    comments: {},
+    likes: [],
+    comments: [],
     date: String
 }, { timestamps: true });
 
