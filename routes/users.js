@@ -3,11 +3,12 @@ const router = express.Router();
 
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/User.js');
+const transporter = require('../config/mailer');
+const auth = require('../config/auth');
 
 /* GET users listing. */
-
-
 
 router.post('/signin',
     passport.authenticate('signin', { failureRedirect: '/', failureFlash: true }),
@@ -71,6 +72,48 @@ router.post('/signup', async(req, res, next) => {
             }
         }
         res.redirect('/users/signup');
+    }
+});
+
+router.get('/forgotpassword', async(req, res, next) => {
+    res.render('forgotpassword');
+});
+
+//rivasroller35@gmail.com
+//qlnlorcpywhygaur
+
+router.post('/forgotpassword', async(req, res, next) => {
+    User.find({ email: req.body.email }, async function(err, user) {
+        if (user.length > 0) {
+            const body = { _id: user[0]._id, username: user[0].username };
+            const rtoken = jwt.sign(body, process.env.RSECRET, { expiresIn: '3600s' });
+            const route = `http://localhost/users/recoverypassword/${rtoken}`;
+            await transporter.sendMail({
+                from: '"Forgot password" <no-reply@rivasroller.com>',
+                to: req.body.email,
+                subject: 'Forgot password',
+                html: `<h1>Recovery password</h1><p>Use this <a href="${route}">link</a> to reset your password. This link expired in 1 hour.</p>`
+            });
+        }
+        res.render('templates/message', { msg: 'If your email is registered in our database, we will send you a recovery email.' });
+    });
+});
+
+router.get('/recoverypassword/:rtoken', async(req, res, next) => {
+    res.render('recoverypassword', { rtoken: req.params.rtoken });
+});
+
+router.post('/recoverypassword/:rtoken', async(req, res, next) => {
+    try {
+        const payload = jwt.verify(req.params.rtoken, process.env.RSECRET);
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.pbkdf2Sync(req.body.password, salt, 10000, 512, 'sha512').toString('hex');
+        await User.findByIdAndUpdate({ _id: payload._id }, { salt: salt, hash: hash }, { new: true });
+        req.flash('error', 'Password changed succesfully.');
+        res.redirect('/');
+    } catch (error) {
+        console.log(error)
+        res.render('templates/message', { msg: 'Expired link' });
     }
 });
 

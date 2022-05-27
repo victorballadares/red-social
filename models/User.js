@@ -23,4 +23,10 @@ UserSchema.methods.validPassword = function(password) {
     return this.hash === hash;
 };
 
+UserSchema.methods.changePassword = async function(_id, password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+    await UserSchema.findByIdAndUpdate({ _id: _id }, { salt: salt, hash: hash }, { new: true });
+};
+
 module.exports = mongoose.model('User', UserSchema);
