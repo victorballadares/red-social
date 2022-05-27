@@ -56,6 +56,23 @@ router.get('/unfollow/:_id', auth, async(req, res, next) => {
     res.send('');
 });
 
+router.get('/search/:query', auth, auth, async(req, res, next) => {
+    let users = [];
+    let posts = [];
+    User.find({ username: { "$regex": req.params.query, "$options": "i" } }, (err, user) => {
+        for (const key in user) {
+            const fuser = user[key];
+            users.push({ _id: fuser._id, username: fuser.username });
+        }
+        Post.find({ title: { "$regex": req.params.query, "$options": "i" } }, (err, post) => {
+            for (const key in post) {
+                const fpost = post[key];
+                posts.push(fpost);
+            }
+            res.json({ users, post });
+        });
+    });
+});
 
 function storeWithOriginalName(file) {
     var fullNewPath = path.join(file.destination, file.originalname)

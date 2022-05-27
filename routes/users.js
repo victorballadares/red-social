@@ -120,4 +120,11 @@ router.get('/signout', (req, res, next) => {
     res.send('respond with a resource');
 });
 
+
+router.get('/profile/:_id', async(req, res, next) => {
+    const user = User.find(req.params._id);
+
+    res.send('respond with a resource');
+});
+
 module.exports = router;
