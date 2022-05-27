@@ -15,6 +15,7 @@
         "express-flash": "^0.0.2",
         "express-session": "^1.17.3",
         "http-errors": "~1.6.3",
+        "image-to-base64": "^2.2.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.3.4",
         "mongoose-unique-validator": "^3.0.0",
