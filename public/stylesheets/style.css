@@ -190,6 +190,21 @@ button{
     font-size: 14px;
    
 }
+
+.alternative{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.alternative button{
+    background: none;
+}
+.alternative img{
+    width: 40px;
+    height: 37px;
+    align-items: center;
+}
+
 main figure{
     display: flex;
     justify-content: center;

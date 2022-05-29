@@ -3,16 +3,27 @@
         <%= error %>
             <% } %>
                 <main>
+
                     <figure>
+                        <img id="img_title" src="img/text.png" alt="Imagen de publicación">
+                        
+                    </figure> 
+                    <figure>
+                        
                         <img src="..//img/logo5.png" alt="Logo de Rivas Roller">
                     </figure>
 
-                    <h1 id="name_app">Rivas Roller</h1>
+                   
                     <form action="/users/signin" method="post">
                         <input type="text" name="username" placeholder="Enter user" required>
                         <input type="password" name="password" placeholder="Enter password" required>
                         <button>Entrar</button>
                     </form>
-                    <button onclick="window.location.href='/users/google'">Sign in with Google</button>
+                    <div class="alternative">
+
+                    
+                        <button onclick="window.location.href='/users/google'"><img src="../img/google.png"></button>
+                        
+                    </div>
                 </main>
                 <%- include('templates/footer.ejs') %>
