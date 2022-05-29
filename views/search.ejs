@@ -1,0 +1,30 @@
+<%- include('templates/header.ejs') %>
+    <% if(typeof(error) != "undefined"){ %>
+        <%= error %>
+            <% } %>
+                <main>
+                    <div>
+                        <% for(var i=0; i<users.length; i++) { %>
+                            <a href="/main/profile/<%= users[i]._id %>">
+                                <div>
+                                    <img src="" alt="">
+                                    <h2>
+                                        <%= users[i].username %>
+                                    </h2>
+                                </div>
+                            </a>
+                            <% } %>
+                    </div>
+
+                    <div>
+                        <% for(var i=0; i<posts.length; i++) { %>
+                            <div>
+                                <img src="data:image/png;base64,<%= posts[i].img %>" alt="">
+                                <p>
+                                    <%= posts[i].title %>
+                                </p>
+                            </div>
+                            <% } %>
+                    </div>
+                </main>
+                <%- include('templates/footer.ejs') %>

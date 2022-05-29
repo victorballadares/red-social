@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String },
     hash: String,
     salt: String,
-    follows: Object
+    follows: [String],
+    img: String
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: 'in use.' });

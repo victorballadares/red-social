@@ -24,7 +24,7 @@ router.get('/post', auth, (req, res, next) => {
     });
 });
 
-router.post('/post', [multer.single('fname')], async(req, res, next) => {
+router.post('/post', auth, [multer.single('fname')], async(req, res, next) => {
     try {
         const title = req.body.title;
         let { filepath } = await storeWithOriginalName(req.file);
@@ -32,6 +32,7 @@ router.post('/post', [multer.single('fname')], async(req, res, next) => {
         await imageToBase64(filepath).then((img) => { imgbs64 = img; }).catch((error) => { console.log(error); });
         fs.unlink(filepath, async() => {
             const post = new Post({
+                user: req.user.user._id,
                 img: imgbs64,
                 title: title,
                 date: Date.now()
@@ -62,14 +63,33 @@ router.get('/search/:query', auth, auth, async(req, res, next) => {
     User.find({ username: { "$regex": req.params.query, "$options": "i" } }, (err, user) => {
         for (const key in user) {
             const fuser = user[key];
-            users.push({ _id: fuser._id, username: fuser.username });
+            users.push({ _id: fuser._id, username: fuser.username, img: fuser.img });
         }
         Post.find({ title: { "$regex": req.params.query, "$options": "i" } }, (err, post) => {
             for (const key in post) {
                 const fpost = post[key];
                 posts.push(fpost);
             }
-            res.json({ users, post });
+            res.render('search', { users, posts });
+        });
+    });
+});
+
+router.get('/profile/:_id', auth, (req, res, next) => {
+    let data = [];
+    Post.find({ user: req.params._id }, (err, post) => {
+        data.push(post);
+        User.find({ _id: req.params._id }, (err, user) => {
+            if (user.length > 0) {
+                let fuser = {
+                    _id: user[0]._id,
+                    username: user[0].username,
+                    img: user[0].img,
+                    follows: user[0].follows,
+                };
+                data.push(fuser);
+                res.render('profile', { data });
+            }
         });
     });
 });
