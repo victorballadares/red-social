@@ -25,6 +25,7 @@ main{
     background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     -webkit-box-shadow: 3px 5px 41px 11px rgba(20,11,12,0.63); 
     box-shadow: 3px 5px 41px 11px rgba(20,11,12,0.63);   
+    
 }
 
 main #img_title{
@@ -167,6 +168,17 @@ main input{
 .like_and_coment span{
     margin: 10px;
 }
+
+#fname_file{
+    border: none;
+}
+
+#fname_file input[type="title"]{
+    background-image: url(../img/title.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}
  
 
 
@@ -213,4 +225,9 @@ main figure{
 #name_app{
     margin-top: -45px;
     text-align: center;
+}
+
+.post img{
+    width: 200px;
+    height: 150px;
 }

@@ -2,17 +2,11 @@
 
     <main>
 
-        <figure>
-            <img id="img_title" src="img/text.png" alt="Imagen de publicación">
-            
-        </figure> 
-
-        
-
 
         <div class="publish">
-            <input type="search" name="search" placeholder="Search">
+            <input id ="search" onkeypress="search(event)" type="search" name="search" placeholder="Search">
         </div>
+
 
 
         <!--Publicación-->
@@ -54,13 +48,6 @@
         <div class="time_publish">
             <p>Hace 2 horas</p>
         </div>
- 
-       
- 
-       
-       
- 
- 
     </div>
 
 
@@ -69,3 +56,12 @@
     </main>
 
     <%- include('templates/footer.ejs') %>
+
+    <script>
+        function search(e){
+            if(e.keyCode == 13){
+                const query = document.getElementById("search").value;
+                window.location.href="/main/search/" +query; 
+            }
+        }
+    </script>

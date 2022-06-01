@@ -1,36 +1,39 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const imageToBase64 = require('image-to-base64');
 const auth = require('../config/auth');
 const Post = require('../models/Post.js');
 const User = require('../models/User.js');
 
-const multer = require('multer')({
-    dest: 'public/images/posts'
+const multer = require('multer')({ //Usamos la libreria multer para subir la imagen
+    dest: 'public/images/posts' //Establecemos el directorio donde se va a guardar
 });
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs'); //Se requiere para trabajar la imagen
+const path = require('path'); //Se utiliza para trabajar las rutas de los archivos
 
-/* GET home page. */
+//Ruta principal de main
 router.get('/', auth, (req, res, next) => {
     res.render('main', {
         error: req.flash("error"),
     });
 });
 
+//Ruta para subir un post
 router.get('/post', auth, (req, res, next) => {
     res.render('post', {
         error: req.flash("error"),
     });
 });
 
-router.post('/post', auth, [multer.single('fname')], async(req, res, next) => {
+router.post('/post', auth, [multer.single('fname')], async(req, res, next) => { //Ruta donde se trabaja el post
     try {
-        const title = req.body.title;
-        let { filepath } = await storeWithOriginalName(req.file);
-        let imgbs64;
+        const title = req.body.title; //Pie de la imagen
+        let { filepath } = await storeWithOriginalName(req.file); //Mueve y renombra el archivo, se renombre porque el nombre que trae por defecto no nos sirve
+        let imgbs64; //Variable que va a tener la base 64 de la imagen
+        //Convertimos la imagen en base64 
         await imageToBase64(filepath).then((img) => { imgbs64 = img; }).catch((error) => { console.log(error); });
-        fs.unlink(filepath, async() => {
+        fs.unlink(filepath, async() => { //Borramos el archivo
+            //Creamos el objeto post
             const post = new Post({
                 user: req.user.user._id,
                 img: imgbs64,
@@ -38,7 +41,7 @@ router.post('/post', auth, [multer.single('fname')], async(req, res, next) => {
                 date: Date.now()
             });
             await post.save();
-            req.flash('error', 'Password changed succesfully.');
+            req.flash('error', 'Post created succesfully.');
             res.redirect('/main');
         });
     } catch (error) {
@@ -47,16 +50,19 @@ router.post('/post', auth, [multer.single('fname')], async(req, res, next) => {
     }
 });
 
+//Función para seguir
 router.get('/follow/:_id', auth, async(req, res, next) => {
     await User.findOneAndUpdate({ _id: req.params._id }, { $addToSet: { follows: req.user.user._id } });
     res.send('');
 });
 
+//Función para dejar de seguir
 router.get('/unfollow/:_id', auth, async(req, res, next) => {
     await User.findOneAndUpdate({ _id: req.params._id, follows: req.user.user._id }, { $pull: { follows: req.user.user._id } });
     res.send('');
 });
 
+//Funcion que busca usuario o post con ese valor indicado
 router.get('/search/:query', auth, auth, async(req, res, next) => {
     let users = [];
     let posts = [];
@@ -75,6 +81,7 @@ router.get('/search/:query', auth, auth, async(req, res, next) => {
     });
 });
 
+//Busca el perfil del usuario (FALTA)
 router.get('/profile/:_id', auth, (req, res, next) => {
     let data = [];
     Post.find({ user: req.params._id }, (err, post) => {
@@ -94,6 +101,7 @@ router.get('/profile/:_id', auth, (req, res, next) => {
     });
 });
 
+//Función para mover y renombrar la imagen
 function storeWithOriginalName(file) {
     var fullNewPath = path.join(file.destination, file.originalname)
     fs.renameSync(file.path, fullNewPath)

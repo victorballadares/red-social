@@ -3,7 +3,7 @@
         <%= error %>
             <% } %>
                 <main>
-                    <div>
+                    <div class="user">
                         <% for(var i=0; i<users.length; i++) { %>
                             <a href="/main/profile/<%= users[i]._id %>">
                                 <div>
@@ -16,9 +16,9 @@
                             <% } %>
                     </div>
 
-                    <div>
+                    <div class="feed">
                         <% for(var i=0; i<posts.length; i++) { %>
-                            <div>
+                            <div class="post">
                                 <img src="data:image/png;base64,<%= posts[i].img %>" alt="">
                                 <p>
                                     <%= posts[i].title %>

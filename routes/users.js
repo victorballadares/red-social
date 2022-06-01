@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -8,8 +7,8 @@ const User = require('../models/User.js');
 const transporter = require('../config/mailer');
 const auth = require('../config/auth');
 
-/* GET users listing. */
 
+//Ruta para hacer login
 router.post('/signin',
     passport.authenticate('signin', { failureRedirect: '/', failureFlash: true }),
     (req, res) => {
@@ -23,12 +22,14 @@ router.post('/signin',
     }
 );
 
+//Ruta para dar de alta en la app
 router.get('/signup', (req, res, next) => {
     res.render('signup', {
-        error: req.flash("error"),
+        error: req.flash("error"), //Para obtener los errores
     });
 });
 
+//Para autenticarse con google
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/', failureFlash: true }),
     (req, res) => {
@@ -42,6 +43,7 @@ router.get('/google/callback',
     }
 );
 
+//Para abrir el pop up de google
 router.get('/google',
     passport.authenticate('google', {
         scope: [
@@ -52,6 +54,7 @@ router.get('/google',
     })
 );
 
+//Ruta para registrar el usuario en la base de datos
 router.post('/signup', async(req, res, next) => {
     let info = {
         username: req.body.username,
@@ -75,18 +78,19 @@ router.post('/signup', async(req, res, next) => {
     }
 });
 
+//Ruta para solicitar la recuperación del password
 router.get('/forgotpassword', async(req, res, next) => {
     res.render('forgotpassword');
 });
 
 
-
+//La ruta que crea el correo 
 router.post('/forgotpassword', async(req, res, next) => {
     User.find({ email: req.body.email }, async function(err, user) {
         if (user.length > 0) {
             const body = { _id: user[0]._id, username: user[0].username };
             const rtoken = jwt.sign(body, process.env.RSECRET, { expiresIn: '3600s' });
-            const route = `http://localhost/users/recoverypassword/${rtoken}`;
+            const route = `http://localhost/users/recoverypassword/${rtoken}`; //Se crea la ruta de la recuperación
             await transporter.sendMail({
                 from: '"Forgot password" <no-reply@rivasroller.com>',
                 to: req.body.email,
@@ -98,10 +102,12 @@ router.post('/forgotpassword', async(req, res, next) => {
     });
 });
 
+//Ruta para introducir la nueva contraseña
 router.get('/recoverypassword/:rtoken', async(req, res, next) => {
     res.render('recoverypassword', { rtoken: req.params.rtoken });
 });
 
+//Para cambiar la contraseña en la bd
 router.post('/recoverypassword/:rtoken', async(req, res, next) => {
     try {
         const payload = jwt.verify(req.params.rtoken, process.env.RSECRET);
@@ -116,11 +122,12 @@ router.post('/recoverypassword/:rtoken', async(req, res, next) => {
     }
 });
 
+//Para cerrar session 
 router.get('/signout', (req, res, next) => {
     res.send('respond with a resource');
 });
 
-
+//Para buscar un usuario
 router.get('/profile/:_id', async(req, res, next) => {
     const user = User.find(req.params._id);
 
