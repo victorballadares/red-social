@@ -4,51 +4,59 @@
 
 
         <div class="publish">
-            <input id ="search" onkeypress="search(event)" type="search" name="search" placeholder="Search">
+            <input id="search" onkeypress="search(event)" type="search" name="search" placeholder="Search">
         </div>
 
 
 
-        <!--Publicación-->
-    <div class="content_publish">
- 
-        <div class="user_profile">
-            <img id="img_avatar" src="img/usuario.png" alt="Imagen de usuario">
-            <p id="user">Name user</p>
-        </div>
- 
- 
-        <figure>
-            <img id="img_user" src="img/photo.png" alt="Imagen de publicación">
-        </figure>  
-       
- 
-       
-        <div class="like_and_coment">
-            <i class="fa-solid fa-heart"></i>
-            <span id="number1">1</span>
- 
-            <link rel="coment">
-            <i class="fa-solid fa-comment"></i>
-            <span id="number2">2</span>
-        </div>
- 
-        <div class="publish_text">
-            <p>Les gusta a Maria y 3 personas <a href="#">Más</a> </p>
-        </div>
- 
-        <div class="publish_text_more_like">
-            <p>Comentarios con mas like</p>
-        </div>
- 
-        <div class="publish_text_all_comments">
-            <a href="#">Mostrar los demás comentarios</a>
-        </div>
- 
-        <div class="time_publish">
-            <p>Hace 2 horas</p>
-        </div>
-    </div>
+
+        <% for(var i=0; i<posts.length; i++) { %>
+
+            <!--Publicación-->
+            <div class="content_publish">
+
+                <div class="user_profile">
+                    <img id="img_avatar" src="data:image/png;base64,<%= posts[i].img %>" alt="Imagen de usuario">
+                    <p id="user">
+                        <%= posts[i].username %>
+                    </p>
+                </div>
+
+
+                <figure>
+                    <img id="img_user" src="data:image/png;base64,<%= posts[i].post.img %>" alt="Imagen de publicación">
+                </figure>
+
+
+
+                <div class="like_and_coment">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="number1"><%= posts[i].post.likes.length %></span>
+
+                    <link rel="coment">
+                    <i class="fa-solid fa-comment"></i>
+                    <span id="number2"><%= posts[i].post.comments.length %></span>
+                </div>
+
+                <div class="publish_text">
+                    <p>Les gusta a Maria y 3 personas <a href="#">Más</a> </p>
+                </div>
+
+                <div class="publish_text_more_like">
+                    <p>Comentarios con mas like</p>
+                </div>
+
+                <div class="publish_text_all_comments">
+                    <a href="#">Mostrar los demás comentarios</a>
+                </div>
+
+                <div class="time_publish">
+                    <p>
+                        <%= posts[i].ago %>
+                    </p>
+                </div>
+            </div>
+            <% } %>
 
 
 
@@ -57,11 +65,11 @@
 
     <%- include('templates/footer.ejs') %>
 
-    <script>
-        function search(e){
-            if(e.keyCode == 13){
-                const query = document.getElementById("search").value;
-                window.location.href="/main/search/" +query; 
+        <script>
+            function search(e) {
+                if (e.keyCode == 13) {
+                    const query = document.getElementById("search").value;
+                    window.location.href = "/main/search/" + query;
+                }
             }
-        }
-    </script>
+        </script>

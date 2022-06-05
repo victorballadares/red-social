@@ -3,5 +3,41 @@
         <%= error %>
             <% } %>
                 <main>
+                    <div class="info">
+                        <div>
+                            <img src="data:image/png;base64,<%= user.img %>" alt="">
+                        </div>
+                        <div>
+                            <h2>
+                                <%= user.username %>
+                            </h2>
+                            <div>
+                                <h2>
+                                    <%= user.posts.length %>
+                                </h2>
+                                <p>Posts</p>
+                            </div>
+                            <div>
+                                <h2>
+                                    <%= user.follows.length %>
+                                </h2>
+                                <p>Follows</p>
+                            </div>
+                            <% if (_id != user._id ) { %>
+                                <% if (user.follows.includes(_id) ) { %>
+                                    <button onclick="window.location.href = '/main/unfollow/<%= user._id %>'">Unfollow</button>
+                                    <% }else{ %>
+                                        <button onclick="window.location.href = '/main/follow/<%= user._id %>'">Follow</button>
+                                        <% } %>
+                                            <% } %>
+                        </div>
+                    </div>
+                    <div class="posts">
+                        <% for(var i=0; i<user.posts.length; i++) { %>
+                            <div class="post">
+                                <img src="data:image/png;base64,<%= user.posts[i].img %>" alt="">
+                            </div>
+                            <% } %>
+                    </div>
                 </main>
                 <%- include('templates/footer.ejs') %>

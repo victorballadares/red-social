@@ -12,9 +12,42 @@ const fs = require('fs'); //Se requiere para trabajar la imagen
 const path = require('path'); //Se utiliza para trabajar las rutas de los archivos
 
 //Ruta principal de main
-router.get('/', auth, (req, res, next) => {
-    res.render('main', {
-        error: req.flash("error"),
+router.get('/', auth, async(req, res, next) => {
+    let posts = [];
+    User.find({ $or: [{ follows: req.user.user._id }, { _id: req.user.user._id }] }, { salt: 0, hash: 0 }).populate('posts').exec((err, user) => {
+        for (const key in user) {
+            user[key].posts.forEach(post => {
+                let ago = '';
+                const date = new Date(post.date);
+                const dif = new Date() - date;
+                const segs = 1000;
+                const mins = segs * 60;
+                const hours = mins * 60;
+                const days = hours * 24;
+                if (dif / days < 3) {
+                    if (dif / days > 1) {
+                        ago = Math.floor(dif / days) + ' days ago';
+                    } else if (dif / hours > 1) {
+                        ago = Math.floor(dif / hours) + ' hours ago';
+                    } else if (dif / mins > 1) {
+                        ago = Math.floor(dif / mins) + ' mins ago';
+                    } else if (dif / segs > 1) {
+                        ago = Math.floor(dif / segs) + ' segs ago';
+                    }
+                } else {
+                    ago = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+                }
+                posts.push({ _id: user[key]._id, username: user[key].username, img: user[key].img, post: post, ago: ago });
+            });
+        }
+        posts.sort(function(a, b) {
+            return b.post.date - a.post.date;
+        });
+        //console.log(posts)
+        res.render('main', {
+            error: req.flash("error"),
+            posts
+        });
     });
 });
 
@@ -40,7 +73,8 @@ router.post('/post', auth, [multer.single('fname')], async(req, res, next) => { 
                 title: title,
                 date: Date.now()
             });
-            await post.save();
+            const savedPost = await post.save();
+            await User.findOneAndUpdate({ _id: req.user.user._id }, { $push: { posts: savedPost._id } });
             req.flash('error', 'Post created succesfully.');
             res.redirect('/main');
         });
@@ -53,17 +87,17 @@ router.post('/post', auth, [multer.single('fname')], async(req, res, next) => { 
 //Función para seguir
 router.get('/follow/:_id', auth, async(req, res, next) => {
     await User.findOneAndUpdate({ _id: req.params._id }, { $addToSet: { follows: req.user.user._id } });
-    res.send('');
+    res.redirect('/main/profile/' + req.params._id);
 });
 
 //Función para dejar de seguir
 router.get('/unfollow/:_id', auth, async(req, res, next) => {
     await User.findOneAndUpdate({ _id: req.params._id, follows: req.user.user._id }, { $pull: { follows: req.user.user._id } });
-    res.send('');
+    res.redirect('/main/profile/' + req.params._id);
 });
 
 //Funcion que busca usuario o post con ese valor indicado
-router.get('/search/:query', auth, auth, async(req, res, next) => {
+router.get('/search/:query', auth, async(req, res, next) => {
     let users = [];
     let posts = [];
     User.find({ username: { "$regex": req.params.query, "$options": "i" } }, (err, user) => {
@@ -81,24 +115,17 @@ router.get('/search/:query', auth, auth, async(req, res, next) => {
     });
 });
 
+
+router.get('/profile/me', auth, async(req, res, next) => {
+    const user = await User.findById(req.user.user._id, { salt: 0, hash: 0 }).populate('posts');
+    res.render('profile', { user, _id: req.user.user._id });
+});
+
 //Busca el perfil del usuario (FALTA)
-router.get('/profile/:_id', auth, (req, res, next) => {
-    let data = [];
-    Post.find({ user: req.params._id }, (err, post) => {
-        data.push(post);
-        User.find({ _id: req.params._id }, (err, user) => {
-            if (user.length > 0) {
-                let fuser = {
-                    _id: user[0]._id,
-                    username: user[0].username,
-                    img: user[0].img,
-                    follows: user[0].follows,
-                };
-                data.push(fuser);
-                res.render('profile', { data });
-            }
-        });
-    });
+router.get('/profile/:_id', auth, async(req, res, next) => {
+    if (req.params._id == req.user.user._id) res.redirect('/main/profile/me');
+    const user = await User.findById(req.params._id, { salt: 0, hash: 0 }).populate('posts');
+    res.render('profile', { user, _id: req.user.user._id });
 });
 
 //Función para mover y renombrar la imagen
@@ -110,5 +137,6 @@ function storeWithOriginalName(file) {
         filepath: fullNewPath
     }
 }
+
 
 module.exports = router;

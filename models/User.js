@@ -9,8 +9,15 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String },
     hash: String,
     salt: String, //Se necesita para hashear
-    follows: [String],
-    img: String
+    follows: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    img: String,
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: 'in use.' }); //Comprueba si hay campo valor existe en la base de datos
