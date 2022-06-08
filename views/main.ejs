@@ -30,12 +30,16 @@
 
 
                 <div class="like_and_coment">
-                    <i class="fa-solid fa-heart"></i>
-                    <span id="number1"><%= posts[i].post.likes.length %></span>
+                    <% if (posts[i].post.likes.includes(_id) ) { %>
+                        <i class="fa-solid fa-heart red" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
+                        <% }else{ %>
+                            <i class="fa-solid fa-heart" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
+                            <% } %>
+                                <span id="l<%= posts[i].post._id %>"><%= posts[i].post.likes.length %></span>
 
-                    <link rel="coment">
-                    <i class="fa-solid fa-comment"></i>
-                    <span id="number2"><%= posts[i].post.comments.length %></span>
+                                <link rel="coment">
+                                <i class="fa-solid fa-comment"></i>
+                                <span id="number2"><%= posts[i].post.comments.length %></span>
                 </div>
 
                 <div class="publish_text">
@@ -70,6 +74,21 @@
                 if (e.keyCode == 13) {
                     const query = document.getElementById("search").value;
                     window.location.href = "/main/search/" + query;
+                }
+            }
+
+            function like(e) {
+                const _id = e.target.id;
+                if (e.target.classList.contains('red')) {
+                    fetch('/main/unlike/' + _id).then(() => {
+                        document.getElementById('l' + _id).innerHTML = Number(document.getElementById('l' + _id).innerHTML) - 1;
+                        e.target.classList.remove('red');
+                    });
+                } else {
+                    fetch('/main/like/' + _id).then(() => {
+                        document.getElementById('l' + _id).innerHTML = Number(document.getElementById('l' + _id).innerHTML) + 1;
+                        e.target.classList.add('red');
+                    });
                 }
             }
         </script>

@@ -43,10 +43,12 @@ router.get('/', auth, async(req, res, next) => {
         posts.sort(function(a, b) {
             return b.post.date - a.post.date;
         });
+        const _id = req.user.user._id;
         //console.log(posts)
         res.render('main', {
             error: req.flash("error"),
-            posts
+            posts,
+            _id
         });
     });
 });
@@ -96,6 +98,18 @@ router.get('/unfollow/:_id', auth, async(req, res, next) => {
     res.redirect('/main/profile/' + req.params._id);
 });
 
+//Función para dar likes
+router.get('/like/:_id', auth, async(req, res, next) => {
+    await Post.findOneAndUpdate({ _id: req.params._id }, { $addToSet: { likes: req.user.user._id } });
+    res.status(200).send();
+});
+
+//Función para dejar de seguir
+router.get('/unlike/:_id', auth, async(req, res, next) => {
+    await Post.findOneAndUpdate({ _id: req.params._id, likes: req.user.user._id }, { $pull: { likes: req.user.user._id } });
+    res.status(200).send();
+});
+
 //Funcion que busca usuario o post con ese valor indicado
 router.get('/search/:query', auth, async(req, res, next) => {
     let users = [];
@@ -121,7 +135,7 @@ router.get('/profile/me', auth, async(req, res, next) => {
     res.render('profile', { user, _id: req.user.user._id });
 });
 
-//Busca el perfil del usuario (FALTA)
+//Busca el perfil del usuario 
 router.get('/profile/:_id', auth, async(req, res, next) => {
     if (req.params._id == req.user.user._id) res.redirect('/main/profile/me');
     const user = await User.findById(req.params._id, { salt: 0, hash: 0 }).populate('posts');
