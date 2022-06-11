@@ -1,0 +1,15 @@
+<%- include('templates/header.ejs') %>
+<main>
+    <a href="/users/tools"><img src="/img/atras.png" alt="imagen para retroceder"></a>
+
+    <figure>
+        <img id="img_title" src="/img/text.png" alt="Imagen de titulo">
+    </figure>
+
+    <div class="edit">
+        <button  onclick="window.location.href = '/users/changeimage'">Change Image</button>
+        <button  onclick="window.location.href = '/users/changepassword'">Change Password</button>
+    </div>
+    
+</main>
+<%- include('templates/footer.ejs') %>

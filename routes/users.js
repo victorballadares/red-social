@@ -140,4 +140,19 @@ router.get('/tools',auth,(req,res)=>{
     res.render('tools');
 })
 
+//Para editar perfil usuario
+router.get('/editprofile',auth,(req,res)=>{
+    res.render('editprofile');
+})
+
+//Para cambiar foto del perfil
+router.get('/changeimage',auth,(req,res)=>{
+    res.render('changeimage');
+})
+
+//Para cambiar la password en tools
+router.get('/changepassword',auth,(req,res)=>{
+    res.render('changepassword');
+})
+
 module.exports = router;

@@ -22,7 +22,6 @@ main {
     padding-bottom: 28px;
     margin-right: 0px auto;
     margin-top: 20px;
-    border-radius: 59px;
     background: #1c92d2;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);
@@ -309,9 +308,14 @@ justify-content: space-around;
     width: 90%;
     margin: 0px auto;
     margin-top: -61px;
-   
-    
 }
+
+#footer{
+    background-color: #16AFF1;
+    width: 79.5%;
+    height: 61px;
+}
+
 
 #footer img{
     margin: 10px;
@@ -323,6 +327,7 @@ justify-content: space-around;
 #tools{
     display: flex;
     flex-direction: column;
+    margin-top: 60px;
 }
 
 
@@ -390,8 +395,30 @@ justify-content: space-around;
     display: flex;
     flex-direction: column;
 }
+.modal a {
+   
+}
 
 .main_top,
 .main_bot {
     display: flex;
+}
+
+.edit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.editpassword{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+    align-items: center;
+}
+
+.editpassword button{
+    width: 120px;
 }

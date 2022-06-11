@@ -6,7 +6,9 @@
         <img id="img_title" src="/img/text.png" alt="Imagen de titulo">
     </figure>
     <div id="tools">
-        <button>Edit profile</button>
-        <button>Logout</button>
+        <button  onclick="window.location.href = '/users/editprofile'">Edit profile</button>
+        
+        <button onclick="window.close()">Logout</button>
     </div>
 </main>
+<%- include('templates/footer.ejs') %>
