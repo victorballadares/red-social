@@ -3,6 +3,10 @@
         <%= error %>
             <% } %>
                 <main>
+                    <figure>
+                        <img id="img_title_signup" src="/img/text.png" alt="Imagen de titulo">
+                    </figure> 
+
                     <form action="/users/signup" method="post">
                         <input type="text" name="username" placeholder="User" required>
                         <input type="email" name="email" placeholder="Email" required>
@@ -11,4 +15,4 @@
                         <button>Sign Up</button>
                     </form>
                 </main>
-                <%- include('templates/footer.ejs') %>
+                

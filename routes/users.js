@@ -135,4 +135,9 @@ router.get('/profile/:_id', async(req, res, next) => {
     res.send('respond with a resource');
 });
 
+//Para las herramientas
+router.get('/tools',auth,(req,res)=>{
+    res.render('tools');
+})
+
 module.exports = router;

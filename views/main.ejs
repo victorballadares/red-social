@@ -35,7 +35,7 @@
                         <% }else{ %>
                             <i class="fa-solid fa-heart" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
                             <% } %>
-                                <span id="l<%= posts[i].post._id %>"><%= posts[i].post.likes.length %></span>
+                                
 
                                 <link rel="coment">
                                 <i class="fa-solid fa-comment"></i>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="publish_text">
-                    <p>Les gusta a Maria y 3 personas <a href="#">Más</a> </p>
+                    <p>Le ha gustado <span id="l<%= posts[i].post._id %>"><%= posts[i].post.likes.length %></span> personas</p>
                 </div>
 
                 <div class="publish_text_more_like">

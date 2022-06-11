@@ -3,10 +3,20 @@
         <%= error %>
             <% } %>
                 <main>
-                    <form action="/main/post" method="post" enctype="multipart/form-data">
-                        <input type="file" name="fname" id="fname_file">
-                        <input type="title" name="title" id="title" placeholder="Enter title">
-                        <button>Post</button>
-                    </form>
+                    <a href="/main"><img src="/img/atras.png" alt="imagen para retroceder"></a>
+                    <figure>
+                        <img id="img_title" src="/img/text.png" alt="Imagen de titulo">
+                    </figure>
+
+                    
+
+
+                    <div id="form_post">
+                        <form action="/main/post" method="post" enctype="multipart/form-data">
+                            <input type="file" name="fname" id="fname_file">
+                            <input type="title" name="title" id="title" placeholder="Enter title">
+                            <button>Post</button>
+                        </form>
+                    </div>
                 </main>
-                <%- include('templates/footer.ejs') %>
+               
