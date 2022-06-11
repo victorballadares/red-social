@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, //Agarramos el id del usuario
+    post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }, //Agarramos el id del post
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

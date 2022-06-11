@@ -1,5 +1,22 @@
 <%- include('templates/header.ejs') %>
 
+    <div id="comment_modal" class="modal">
+        <div class="modal_contenido">
+            <a href="javascript:closeModal()">X</a>
+            <div id="comment_title">
+                <img id="comment_title_img" src="" alt="Imagen de usuario">
+                <span id="comment_title_user"></span>
+                <span id="comment_title_text"></span>
+            </div>
+            <div id="comments_container">
+
+            </div>
+            <div class="new_comment">
+                <input type="text" name="new_comment" id="new_comment" onkeypress="new_comment(event)">
+                <input type="hidden" id="post_id">
+            </div>
+        </div>
+    </div>
     <main>
 
 
@@ -51,7 +68,7 @@
                 </div>
 
                 <div class="publish_text_all_comments">
-                    <a href="#">Mostrar los demás comentarios</a>
+                    <a href="javascript:showModal('<%= posts[i].post._id %>','<%= posts[i].post.title %>','<%= posts[i].username %>','data:image/png;base64,<%= posts[i].img %>')">Mostrar los demás comentarios</a>
                 </div>
 
                 <div class="time_publish">
@@ -89,6 +106,186 @@
                         document.getElementById('l' + _id).innerHTML = Number(document.getElementById('l' + _id).innerHTML) + 1;
                         e.target.classList.add('red');
                     });
+                }
+            }
+
+            function showModal(id, title, username, img) {
+                fetch('/main/post/comments/' + id)
+                    .then(res => res.json())
+                    .then(info => {
+                        const modal = document.getElementById('comment_modal');
+                        const post_id = document.getElementById('post_id');
+                        const comments_container = document.getElementById('comments_container');
+                        const comment_title_user = document.getElementById('comment_title_user');
+                        const comment_title_img = document.getElementById('comment_title_img');
+                        const comment_title_text = document.getElementById('comment_title_text');
+                        post_id.value = id;
+                        comment_title_user.innerHTML = '<b>' + username + '</b>';;
+                        comment_title_img.src = img;
+                        comment_title_text.innerHTML = title;
+
+                        comments_container.innerHTML = '';
+                        try {
+                            info.selfComments.forEach(comment => {
+                                let comment_div = document.createElement('div');
+                                comment_div.classList.add('comment_div');
+                                let comment_main = document.createElement('div');
+                                comment_main.classList.add('comment_main');
+
+                                let main_top = document.createElement('div');
+                                main_top.classList.add('main_top');
+                                let main_bot = document.createElement('div');
+                                main_bot.classList.add('main_bot');
+
+                                let comment_like = document.createElement('div');
+                                comment_like.classList.add('comment_like');
+
+                                let img = document.createElement('img');
+                                img.src = 'data:image/png;base64,' + comment.user.img;
+                                main_top.appendChild(img);
+                                let user = document.createElement('span');
+                                user.innerHTML = '<b>' + comment.user.username + '</b>';
+                                main_top.appendChild(user);
+                                let text = document.createElement('span');
+                                text.innerHTML = comment.comment;
+                                main_top.appendChild(text);
+
+                                let ago = document.createElement('span');
+                                ago.innerHTML = '<b>' + calc_ago(comment.date) + '</b>';
+                                main_bot.appendChild(ago);
+                                let likes = document.createElement('span');
+                                likes.innerHTML = '<b id="c' + comment._id + '">' + comment.likes.length + '</b><b> likes</b>';
+                                main_bot.appendChild(likes);
+
+                                const userId = '<%- _id %>';
+                                if (comment.likes.includes(userId)) {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart red" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                } else {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                }
+
+                                comment_main.appendChild(main_top);
+                                comment_main.appendChild(main_bot);
+                                comment_div.appendChild(comment_main);
+                                comment_div.appendChild(comment_like);
+                                comments_container.appendChild(comment_div);
+                            });
+                        } catch (error) {
+
+                        }
+                        try {
+                            info.comments.forEach(comment => {
+                                let comment_div = document.createElement('div');
+                                comment_div.classList.add('comment_div');
+                                let comment_main = document.createElement('div');
+                                comment_main.classList.add('comment_main');
+
+                                let main_top = document.createElement('div');
+                                main_top.classList.add('main_top');
+                                let main_bot = document.createElement('div');
+                                main_bot.classList.add('main_bot');
+
+                                let comment_like = document.createElement('div');
+                                comment_like.classList.add('comment_like');
+
+                                let img = document.createElement('img');
+                                img.src = 'data:image/png;base64,' + comment.user.img;
+                                main_top.appendChild(img);
+                                let user = document.createElement('span');
+                                user.innerHTML = '<b>' + comment.user.username + '</b>';
+                                main_top.appendChild(user);
+                                let text = document.createElement('span');
+                                text.innerHTML = comment.comment;
+                                main_top.appendChild(text);
+
+                                let ago = document.createElement('span');
+                                ago.innerHTML = '<b>' + calc_ago(comment.date) + '</b>';
+                                main_bot.appendChild(ago);
+                                let likes = document.createElement('span');
+                                likes.innerHTML = '<b id="c' + comment._id + '">' + comment.likes.length + '</b><b> likes</b>';
+                                main_bot.appendChild(likes);
+
+                                const userId = '<%- _id %>';
+                                if (comment.likes.includes(userId)) {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart red" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                } else {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                }
+
+                                comment_main.appendChild(main_top);
+                                comment_main.appendChild(main_bot);
+                                comment_div.appendChild(comment_main);
+                                comment_div.appendChild(comment_like);
+                                comments_container.appendChild(comment_div);
+                            });
+                        } catch (error) {
+
+                        }
+
+                        modal.classList.add('modal_show');
+                    })
+            }
+
+            function comment_like(e) {
+                const _id = e.target.id;
+                if (e.target.classList.contains('red')) {
+                    fetch('/main/comment/unlike/' + _id).then(() => {
+                        document.getElementById('c' + _id).innerHTML = Number(document.getElementById('c' + _id).innerHTML) - 1;
+                        e.target.classList.remove('red');
+                    });
+                } else {
+                    fetch('/main/comment/like/' + _id).then(() => {
+                        document.getElementById('c' + _id).innerHTML = Number(document.getElementById('c' + _id).innerHTML) + 1;
+                        e.target.classList.add('red');
+                    });
+                }
+            }
+
+            function calc_ago(time) {
+                let ago = '';
+                const date = new Date(time);
+                const dif = new Date() - date;
+                const segs = 1000;
+                const mins = segs * 60;
+                const hours = mins * 60;
+                const days = hours * 24;
+                if (dif / days < 3) {
+                    if (dif / days > 1) {
+                        ago = Math.floor(dif / days) + ' days ago';
+                    } else if (dif / hours > 1) {
+                        ago = Math.floor(dif / hours) + ' hours ago';
+                    } else if (dif / mins > 1) {
+                        ago = Math.floor(dif / mins) + ' mins ago';
+                    } else if (dif / segs > 1) {
+                        ago = Math.floor(dif / segs) + ' segs ago';
+                    }
+                } else {
+                    ago = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+                }
+                return ago;
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('comment_modal');
+                modal.classList.remove('modal_show');
+            }
+
+            function new_comment(e) {
+                if (e.keyCode == 13 && document.getElementById("new_comment").value != '') {
+                    const data = JSON.stringify({
+                        comment: document.getElementById("new_comment").value,
+                        post_id: document.getElementById("post_id").value
+                    });
+                    fetch('/main/comment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: data,
+                        })
+                        .then(res => {
+                            document.getElementById("new_comment").value = '';
+                        })
                 }
             }
         </script>
