@@ -125,7 +125,6 @@ form input[type="tel"] {
     background-size: contain;
 }
 
-<<<<<<< HEAD
 #text_center{
     text-align: center;
     margin-top: 0px;
@@ -150,8 +149,6 @@ main input {
     border-bottom: 1px solid #fcfbfb;
 }
 
-=======
->>>>>>> 1319856efa69190eb968b2298fe2318a25a5867c
 .publish {
     text-align: center;
     margin: 0;
@@ -306,7 +303,6 @@ justify-content: space-around;
 .red {
     color: red;
 }
-<<<<<<< HEAD
 #footer {
     display: flex;
     justify-content: center;
@@ -325,21 +321,11 @@ justify-content: space-around;
     width: 30px;
 }
 #tools{
-=======
-
-.modal_contenido {
-    background-color: aqua;
-    width: 76%;
-    padding: 10px 20px;
-    margin: 20px auto;
-    height: 90vh;
-    position: relative;
->>>>>>> 1319856efa69190eb968b2298fe2318a25a5867c
     display: flex;
     flex-direction: column;
 }
 
-<<<<<<< HEAD
+
 .info{
     display: flex;
     justify-content: flex-start;
@@ -351,7 +337,24 @@ justify-content: space-around;
     width: 50px;
     margin: 12px;
     margin-top: 7px;
-=======
+
+}
+
+.red {
+    color: red;
+}
+
+.modal_contenido {
+    background-color: aqua;
+    width: 76%;
+    padding: 10px 20px;
+    margin: 20px auto;
+    height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
 .modal_contenido .new_comment {
     margin-top: auto;
 }
@@ -391,5 +394,4 @@ justify-content: space-around;
 .main_top,
 .main_bot {
     display: flex;
->>>>>>> 1319856efa69190eb968b2298fe2318a25a5867c
 }
