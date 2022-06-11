@@ -4,6 +4,7 @@ const imageToBase64 = require('image-to-base64');
 const auth = require('../config/auth');
 const Post = require('../models/Post.js');
 const User = require('../models/User.js');
+const Comment = require('../models/Comment.js');
 
 const multer = require('multer')({ //Usamos la libreria multer para subir la imagen
     dest: 'public/images/posts' //Establecemos el directorio donde se va a guardar
@@ -104,9 +105,21 @@ router.get('/like/:_id', auth, async(req, res, next) => {
     res.status(200).send();
 });
 
-//Función para dejar de seguir
+//Función para quitar like
 router.get('/unlike/:_id', auth, async(req, res, next) => {
     await Post.findOneAndUpdate({ _id: req.params._id, likes: req.user.user._id }, { $pull: { likes: req.user.user._id } });
+    res.status(200).send();
+});
+
+//Función para dar likes
+router.get('/comment/like/:_id', auth, async(req, res, next) => {
+    await Comment.findOneAndUpdate({ _id: req.params._id }, { $addToSet: { likes: req.user.user._id } });
+    res.status(200).send();
+});
+
+//Función para quitar like
+router.get('/comment/unlike/:_id', auth, async(req, res, next) => {
+    await Comment.findOneAndUpdate({ _id: req.params._id, likes: req.user.user._id }, { $pull: { likes: req.user.user._id } });
     res.status(200).send();
 });
 
@@ -129,6 +142,26 @@ router.get('/search/:query', auth, async(req, res, next) => {
     });
 });
 
+router.post('/comment', auth, async(req, res, next) => {
+    const comment = new Comment({
+        user: req.user.user._id,
+        post: req.body.post_id,
+        comment: req.body.comment,
+        date: Date.now()
+    });
+    const savedComment = await comment.save();
+    await Post.findOneAndUpdate({ _id: req.body.post_id }, { $push: { comments: savedComment._id } });
+    res.status(200).send('success');
+});
+
+router.get('/post/comments/:_id', auth, async(req, res, next) => {
+    const selfComments = await Comment.find({ post: req.params._id, user: req.user.user._id }).populate('user', { hash: 0, salt: 0, follows: 0, posts: 0 });
+    let comments = await Comment.find({ post: req.params._id, user: { $ne: req.user.user._id } }).populate('user', { hash: 0, salt: 0, follows: 0, posts: 0 });
+    comments.sort(function(a, b) {
+        return b.likes.length - a.likes.length;
+    });
+    res.json({ selfComments: selfComments, comments: comments });
+});
 
 router.get('/profile/me', auth, async(req, res, next) => {
     const user = await User.findById(req.user.user._id, { salt: 0, hash: 0 }).populate('posts');

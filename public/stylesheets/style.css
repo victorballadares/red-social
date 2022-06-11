@@ -44,7 +44,7 @@ form {
     align-items: center;
 }
 
-form input {
+input {
     width: 66%;
     font-size: 1em;
     margin: 9px;
@@ -81,18 +81,6 @@ form input[type="tel"] {
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
-}
-
-main input {
-    width: 66%;
-    text-align: center;
-    font-size: 1em;
-    margin: 9px;
-    padding: 5px;
-    border: none;
-    outline: 0px;
-    background-color: transparent;
-    border-bottom: 1px solid #fcfbfb;
 }
 
 .publish {
@@ -233,4 +221,56 @@ main figure {
 
 .red {
     color: red;
+}
+
+.modal_contenido {
+    background-color: aqua;
+    width: 76%;
+    padding: 10px 20px;
+    margin: 20px auto;
+    height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal_contenido .new_comment {
+    margin-top: auto;
+}
+
+.modal_contenido .new_comment input {
+    width: 100%;
+    margin: 10px auto;
+    padding: 0;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, .8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 1s;
+}
+
+.modal_show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.comment_div {
+    display: flex;
+}
+
+.comment_main {
+    display: flex;
+    flex-direction: column;
+}
+
+.main_top,
+.main_bot {
+    display: flex;
 }

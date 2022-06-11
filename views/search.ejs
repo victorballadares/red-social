@@ -7,7 +7,7 @@
                         <% for(var i=0; i<users.length; i++) { %>
                             <a href="/main/profile/<%= users[i]._id %>">
                                 <div>
-                                    <img src="<%= users[i].img %>" alt="">
+                                    <img src="data:image/png;base64,<%= users[i].img %>" alt="">
                                     <h2>
                                         <%= users[i].username %>
                                     </h2>
