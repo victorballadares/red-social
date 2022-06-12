@@ -52,7 +52,7 @@
                         <% }else{ %>
                             <i class="fa-solid fa-heart" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
                             <% } %>
-                                
+
 
                                 <link rel="coment">
                                 <i class="fa-solid fa-comment"></i>
@@ -285,7 +285,115 @@
                         })
                         .then(res => {
                             document.getElementById("new_comment").value = '';
+                            comments();
                         })
                 }
+            }
+
+            function comments() {
+
+                const post_id = document.getElementById('post_id').value;
+                fetch('/main/post/comments/' + post_id)
+                    .then(res => res.json())
+                    .then(info => {
+                        const comments_container = document.getElementById('comments_container');
+                        comments_container.innerHTML = '';
+                        try {
+                            info.selfComments.forEach(comment => {
+                                let comment_div = document.createElement('div');
+                                comment_div.classList.add('comment_div');
+                                let comment_main = document.createElement('div');
+                                comment_main.classList.add('comment_main');
+
+                                let main_top = document.createElement('div');
+                                main_top.classList.add('main_top');
+                                let main_bot = document.createElement('div');
+                                main_bot.classList.add('main_bot');
+
+                                let comment_like = document.createElement('div');
+                                comment_like.classList.add('comment_like');
+
+                                let img = document.createElement('img');
+                                img.src = 'data:image/png;base64,' + comment.user.img;
+                                main_top.appendChild(img);
+                                let user = document.createElement('span');
+                                user.innerHTML = '<b>' + comment.user.username + '</b>';
+                                main_top.appendChild(user);
+                                let text = document.createElement('span');
+                                text.innerHTML = comment.comment;
+                                main_top.appendChild(text);
+
+                                let ago = document.createElement('span');
+                                ago.innerHTML = '<b>' + calc_ago(comment.date) + '</b>';
+                                main_bot.appendChild(ago);
+                                let likes = document.createElement('span');
+                                likes.innerHTML = '<b id="c' + comment._id + '">' + comment.likes.length + '</b><b> likes</b>';
+                                main_bot.appendChild(likes);
+
+                                const userId = '<%- _id %>';
+                                if (comment.likes.includes(userId)) {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart red" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                } else {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                }
+
+                                comment_main.appendChild(main_top);
+                                comment_main.appendChild(main_bot);
+                                comment_div.appendChild(comment_main);
+                                comment_div.appendChild(comment_like);
+                                comments_container.appendChild(comment_div);
+                            });
+                        } catch (error) {
+
+                        }
+                        try {
+                            info.comments.forEach(comment => {
+                                let comment_div = document.createElement('div');
+                                comment_div.classList.add('comment_div');
+                                let comment_main = document.createElement('div');
+                                comment_main.classList.add('comment_main');
+
+                                let main_top = document.createElement('div');
+                                main_top.classList.add('main_top');
+                                let main_bot = document.createElement('div');
+                                main_bot.classList.add('main_bot');
+
+                                let comment_like = document.createElement('div');
+                                comment_like.classList.add('comment_like');
+
+                                let img = document.createElement('img');
+                                img.src = 'data:image/png;base64,' + comment.user.img;
+                                main_top.appendChild(img);
+                                let user = document.createElement('span');
+                                user.innerHTML = '<b>' + comment.user.username + '</b>';
+                                main_top.appendChild(user);
+                                let text = document.createElement('span');
+                                text.innerHTML = comment.comment;
+                                main_top.appendChild(text);
+
+                                let ago = document.createElement('span');
+                                ago.innerHTML = '<b>' + calc_ago(comment.date) + '</b>';
+                                main_bot.appendChild(ago);
+                                let likes = document.createElement('span');
+                                likes.innerHTML = '<b id="c' + comment._id + '">' + comment.likes.length + '</b><b> likes</b>';
+                                main_bot.appendChild(likes);
+
+                                const userId = '<%- _id %>';
+                                if (comment.likes.includes(userId)) {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart red" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                } else {
+                                    comment_like.innerHTML = '<i class="fa-solid fa-heart" id="' + comment._id + '" onclick="comment_like(event)"></i>';
+                                }
+
+                                comment_main.appendChild(main_top);
+                                comment_main.appendChild(main_bot);
+                                comment_div.appendChild(comment_main);
+                                comment_div.appendChild(comment_like);
+                                comments_container.appendChild(comment_div);
+                            });
+                        } catch (error) {
+
+                        }
+                    });
             }
         </script>
