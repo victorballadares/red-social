@@ -2,7 +2,7 @@
 
     <div id="comment_modal" class="modal">
         <div class="modal_contenido">
-            <a href="javascript:closeModal()">🔨</a>
+            <a href="javascript:closeModal()">❌</a>
             <div id="comment_title">
                 <img id="comment_title_img" src="" alt="Imagen de usuario">
                 <span id="comment_title_user"></span>
@@ -12,7 +12,7 @@
 
             </div>
             <div class="new_comment">
-                <input type="text" name="new_comment" id="new_comment" onkeypress="new_comment(event)">
+                <input type="text" name="new_comment" id="new_comment" onkeypress="new_comment(event)" placeholder="Insert a new coment">
                 <input type="hidden" id="post_id">
             </div>
         </div>
@@ -64,11 +64,11 @@
                 </div>
 
                 <div class="publish_text_more_like">
-                    <p>Comentarios con mas like</p>
+                    <p><%= posts[i].post.title%></p>
                 </div>
 
                 <div class="publish_text_all_comments">
-                    <a href="javascript:showModal('<%= posts[i].post._id %>','<%= posts[i].post.title %>','<%= posts[i].username %>','data:image/png;base64,<%= posts[i].img %>')">Mostrar los demás comentarios</a>
+                    <a href="javascript:showModal('<%= posts[i].post._id %>','<%= posts[i].post.title %>','<%= posts[i].username %>','data:image/png;base64,<%= posts[i].img %>')">Mostrar  comentarios</a>
                 </div>
 
                 <div class="time_publish">

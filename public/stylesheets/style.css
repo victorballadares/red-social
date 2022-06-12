@@ -11,17 +11,20 @@ body {
 }
 
 main {
-    display: flex;
+   
     flex-direction: column;
     justify-content: center;
     overflow-y: scroll;
     scroll-behavior: smooth;
-    height: 84vh;
+    display: block;
+    height: 600px;
     width: 76%;
     padding: 6px 5%;
     padding-bottom: 28px;
     margin-right: 0px auto;
     margin-top: 20px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
     background: #1c92d2;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);
@@ -36,17 +39,6 @@ main::-webkit-scrollbar {
     -webkit-appearance: none;
 }
 
-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50%;
-    display: block;
-    width: 250px;
-    height: 600px;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-}
 
 main #img_title {
     width: 230px;
@@ -137,7 +129,7 @@ form input[type="tel"] {
 }
 
 main input {
-    width: 66%;
+    width: 100%;
     text-align: center;
     font-size: 1em;
     margin: 9px;
@@ -349,7 +341,7 @@ main figure {
 }
 
 .modal_contenido {
-    background-color: aqua;
+    background-color: #5DADE2;
     width: 76%;
     padding: 10px 20px;
     margin: 20px auto;
@@ -388,18 +380,52 @@ main figure {
 
 .comment_div {
     display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .comment_main {
     display: flex;
     flex-direction: column;
+    margin: 15px 0px;
+    flex: 1;
 }
 
-.modal a {}
+.modal a {
+    text-decoration: none;
+    margin: 10px;
+}
+
+#comment_title_img{
+    width: 30px;
+}
+
+
+#comment_title_text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 24px;
+    padding: 10px;
+}
+
+
+
+.main_top img{
+    width: 30px;
+}
+
+.main_top span, .main_bot span{
+margin-left: 10px;
+font-size: 0.9em;
+}
 
 .main_top,
 .main_bot {
     display: flex;
+    align-items: center;
+    margin: 5px 0px;
+    
 }
 
 .edit {
@@ -427,4 +453,26 @@ main figure {
 
 #comments_container::-webkit-scrollbar {
     -webkit-appearance: none;
+}
+
+@media screen and (min-width:900px){
+
+    main{
+        height: 80vh;
+    }
+    .content_publish #img_user {
+        width: 70%;
+        
+    }
+
+
+    .content_publish #img_user{
+        width: 30%;
+    }
+
+    .post img {
+        width: 50%;
+        height: 75px;
+    }
+    
 }
