@@ -4,10 +4,10 @@
 }
 
 body {
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-   align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 main {
@@ -15,7 +15,7 @@ main {
     flex-direction: column;
     justify-content: center;
     overflow-y: scroll;
-  scroll-behavior: smooth;;
+    scroll-behavior: smooth;
     height: 84vh;
     width: 76%;
     padding: 6px 5%;
@@ -32,7 +32,11 @@ main {
     box-shadow: 3px 5px 41px 11px rgba(20, 11, 12, 0.63);
 }
 
-main{
+main::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+main {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,29 +54,26 @@ main #img_title {
     margin-bottom: -10px;
 }
 
-main a img{
+main a img {
     width: 45px;
     margin-top: 5px;
 }
 
-#form_post{
-    
+#form_post {
     margin-top: 90px;
 }
 
-#img_title_signup{
+#img_title_signup {
     width: 222px;
     margin-top: 35px;
     margin-bottom: 46px;
 }
 
-#img_title_forgot{
+#img_title_forgot {
     width: 222px;
     margin-top: 55px;
     margin-bottom: 124px;
 }
-
-
 
 #titulo {
     font-family: Helvetica;
@@ -124,11 +125,12 @@ form input[type="tel"] {
     background-size: contain;
 }
 
-#text_center{
+#text_center {
     text-align: center;
     margin-top: 0px;
 }
-#button_center{
+
+#button_center {
     display: block;
     margin: 0 auto;
     width: 98px;
@@ -223,8 +225,8 @@ main input {
     margin: 10px;
 }
 
-#fa-solid{
-margin: 100px;
+#fa-solid {
+    margin: 100px;
 }
 
 #fname_file {
@@ -283,18 +285,17 @@ main figure {
     text-align: center;
 }
 
-.posts{
-display: flex;
-flex-wrap: wrap;
-justify-content: space-around;
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
-.post{
+.post {
     width: 30%;
 }
 
-.post  img{
-   
+.post img {
     width: 100%;
     height: 75px;
 }
@@ -302,6 +303,7 @@ justify-content: space-around;
 .red {
     color: red;
 }
+
 #footer {
     display: flex;
     justify-content: center;
@@ -310,39 +312,36 @@ justify-content: space-around;
     margin-top: -61px;
 }
 
-#footer{
+#footer {
     background-color: #16AFF1;
     width: 79.5%;
     height: 61px;
 }
 
-
-#footer img{
+#footer img {
     margin: 10px;
     padding: 20px;
-    line-height:10px;
+    line-height: 10px;
     margin: 0px;
     width: 30px;
 }
-#tools{
+
+#tools {
     display: flex;
     flex-direction: column;
     margin-top: 60px;
 }
 
-
-.info{
+.info {
     display: flex;
     justify-content: flex-start;
     margin-top: 20px;
-
 }
 
-.info img{
+.info img {
     width: 50px;
     margin: 12px;
     margin-top: 7px;
-
 }
 
 .red {
@@ -395,23 +394,22 @@ justify-content: space-around;
     display: flex;
     flex-direction: column;
 }
-.modal a {
-   
-}
+
+.modal a {}
 
 .main_top,
 .main_bot {
     display: flex;
 }
 
-.edit{
+.edit {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 50px;
 }
 
-.editpassword{
+.editpassword {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -419,6 +417,14 @@ justify-content: space-around;
     align-items: center;
 }
 
-.editpassword button{
+.editpassword button {
     width: 120px;
+}
+
+#comments_container {
+    overflow-y: scroll;
+}
+
+#comments_container::-webkit-scrollbar {
+    -webkit-appearance: none;
 }
