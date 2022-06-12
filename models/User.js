@@ -35,10 +35,10 @@ UserSchema.methods.validPassword = function(password) {
 };
 
 //Funcion para cambiar la password
-UserSchema.methods.changePassword = async function(_id, password) {
-    const salt = crypto.randomBytes(16).toString('hex');
-    const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-    await UserSchema.findByIdAndUpdate({ _id: _id }, { salt: salt, hash: hash }, { new: true });
+UserSchema.methods.changePassword = async function(password) {
+    const salt = await crypto.randomBytes(16).toString('hex');
+    const hash = await crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
+    return { salt, hash };
 };
 
 module.exports = mongoose.model('User', UserSchema);

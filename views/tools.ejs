@@ -1,14 +1,14 @@
 <%- include('templates/header.ejs') %>
-<main>
-    <a href="/main"><img src="/img/atras.png" alt="imagen para retroceder"></a>
+    <main>
+        <a href="/main"><img src="/img/atras.png" alt="imagen para retroceder"></a>
 
-    <figure>
-        <img id="img_title" src="/img/text.png" alt="Imagen de titulo">
-    </figure>
-    <div id="tools">
-        <button  onclick="window.location.href = '/users/editprofile'">Edit profile</button>
-        
-        <button onclick="window.close()">Logout</button>
-    </div>
-</main>
-<%- include('templates/footer.ejs') %>
+        <figure>
+            <img id="img_title" src="/img/text.png" alt="Imagen de titulo">
+        </figure>
+        <div id="tools">
+            <button onclick="window.location.href = '/users/editprofile'">Edit profile</button>
+
+            <button onclick="window.location.href = '/users/signout'">Logout</button>
+        </div>
+    </main>
+    <%- include('templates/footer.ejs') %>

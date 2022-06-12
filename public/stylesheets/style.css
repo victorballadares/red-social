@@ -378,12 +378,12 @@ main figure {
     left: 0;
     opacity: 0;
     pointer-events: none;
-    transition: all 1s;
 }
 
 .modal_show {
     opacity: 1;
     pointer-events: auto;
+    transition: all 1s;
 }
 
 .comment_div {

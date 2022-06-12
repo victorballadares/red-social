@@ -6,7 +6,13 @@ const crypto = require('crypto');
 const User = require('../models/User.js');
 const transporter = require('../config/mailer');
 const auth = require('../config/auth');
+const imageToBase64 = require('image-to-base64');
 
+const multer = require('multer')({ //Usamos la libreria multer para subir la imagen
+    dest: 'public/images/posts' //Establecemos el directorio donde se va a guardar
+});
+const fs = require('fs'); //Se requiere para trabajar la imagen
+const path = require('path'); //Se utiliza para trabajar las rutas de los archivos
 
 //Ruta para hacer login
 router.post('/signin',
@@ -124,8 +130,8 @@ router.post('/recoverypassword/:rtoken', async(req, res, next) => {
 });
 
 //Para cerrar session 
-router.get('/signout', (req, res, next) => {
-    res.send('respond with a resource');
+router.get('/signout', auth, (req, res, next) => {
+    res.clearCookie("token").clearCookie("connect.sid").redirect('/');
 });
 
 //Para buscar un usuario
@@ -136,23 +142,53 @@ router.get('/profile/:_id', async(req, res, next) => {
 });
 
 //Para las herramientas
-router.get('/tools',auth,(req,res)=>{
+router.get('/tools', auth, (req, res) => {
     res.render('tools');
-})
+});
 
 //Para editar perfil usuario
-router.get('/editprofile',auth,(req,res)=>{
+router.get('/editprofile', auth, (req, res) => {
     res.render('editprofile');
-})
+});
 
 //Para cambiar foto del perfil
-router.get('/changeimage',auth,(req,res)=>{
+router.get('/changeimage', auth, (req, res) => {
     res.render('changeimage');
-})
+});
+
+router.post('/changeimage', auth, [multer.single('fname')], async(req, res) => {
+    let { filepath } = await storeWithOriginalName(req.file); //Mueve y renombra el archivo, se renombre porque el nombre que trae por defecto no nos sirve
+    let imgbs64; //Variable que va a tener la base 64 de la imagen
+    //Convertimos la imagen en base64 
+    await imageToBase64(filepath).then((img) => { imgbs64 = img; }).catch((error) => { console.log(error); });
+    fs.unlink(filepath, async() => { //Borramos el archivo
+        await User.findOneAndUpdate({ _id: req.user.user._id }, { img: imgbs64 });
+        req.flash('error', 'Profile photo changed succesfully.');
+        res.redirect('/users/tools');
+    });
+});
 
 //Para cambiar la password en tools
-router.get('/changepassword',auth,(req,res)=>{
+router.get('/changepassword', auth, (req, res) => {
     res.render('changepassword');
-})
+});
+
+router.post('/changepassword', auth, async(req, res) => {
+    const user = new User();
+    const { salt, hash } = await user.changePassword(req.body.password);
+    await User.findByIdAndUpdate({ _id: req.user.user._id }, { salt: salt, hash: hash }, { new: true });
+    req.flash('error', 'Password changed succesfully.');
+    res.redirect('/users/tools');
+});
+
+//Función para mover y renombrar la imagen
+function storeWithOriginalName(file) {
+    var fullNewPath = path.join(file.destination, file.originalname)
+    fs.renameSync(file.path, fullNewPath)
+
+    return {
+        filepath: fullNewPath
+    }
+}
 
 module.exports = router;
