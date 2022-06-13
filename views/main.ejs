@@ -24,64 +24,49 @@
             <input id="search" onkeypress="search(event)" type="search" name="search" placeholder="Search">
         </div>
 
+        <div class="content_publishs">
+            <% for(var i=0; i<posts.length; i++) { %>
 
-
-
-        <% for(var i=0; i<posts.length; i++) { %>
-
-            <!--Publicación-->
-            <div class="content_publish">
-
-                <div class="user_profile">
-                    <img id="img_avatar" src="data:image/png;base64,<%= posts[i].img %>" alt="Imagen de usuario">
-                    <p id="user">
-                        <%= posts[i].username %>
-                    </p>
+                <!--Publicación-->
+                <div class="content_publish">
+                    <div class="user_profile">
+                        <img id="img_avatar" src="data:image/png;base64,<%= posts[i].img %>" alt="Imagen de usuario">
+                        <p id="user">
+                            <%= posts[i].username %>
+                        </p>
+                    </div>
+                    <figure>
+                        <img id="img_user" src="data:image/png;base64,<%= posts[i].post.img %>" alt="Imagen de publicación">
+                    </figure>
+                    <div class="like_and_coment">
+                        <% if (posts[i].post.likes.includes(_id) ) { %>
+                            <i class="fa-solid fa-heart red" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
+                            <% }else{ %>
+                                <i class="fa-solid fa-heart" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
+                                <% } %>
+                                    <link rel="coment">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span id="number2"><%= posts[i].post.comments.length %></span>
+                    </div>
+                    <div class="publish_text">
+                        <p>Le ha gustado <span id="l<%= posts[i].post._id %>"><%= posts[i].post.likes.length %></span> personas</p>
+                    </div>
+                    <div class="publish_text_more_like">
+                        <p>
+                            <%= posts[i].post.title%>
+                        </p>
+                    </div>
+                    <div class="publish_text_all_comments">
+                        <a href="javascript:showModal('<%= posts[i].post._id %>','<%= posts[i].post.title %>','<%= posts[i].username %>','data:image/png;base64,<%= posts[i].img %>')">Mostrar  comentarios</a>
+                    </div>
+                    <div class="time_publish">
+                        <p>
+                            <%= posts[i].ago %>
+                        </p>
+                    </div>
                 </div>
-
-
-                <figure>
-                    <img id="img_user" src="data:image/png;base64,<%= posts[i].post.img %>" alt="Imagen de publicación">
-                </figure>
-
-
-
-                <div class="like_and_coment">
-                    <% if (posts[i].post.likes.includes(_id) ) { %>
-                        <i class="fa-solid fa-heart red" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
-                        <% }else{ %>
-                            <i class="fa-solid fa-heart" id="<%= posts[i].post._id %>" onclick="like(event)"></i>
-                            <% } %>
-
-
-                                <link rel="coment">
-                                <i class="fa-solid fa-comment"></i>
-                                <span id="number2"><%= posts[i].post.comments.length %></span>
-                </div>
-
-                <div class="publish_text">
-                    <p>Le ha gustado <span id="l<%= posts[i].post._id %>"><%= posts[i].post.likes.length %></span> personas</p>
-                </div>
-
-                <div class="publish_text_more_like">
-                    <p><%= posts[i].post.title%></p>
-                </div>
-
-                <div class="publish_text_all_comments">
-                    <a href="javascript:showModal('<%= posts[i].post._id %>','<%= posts[i].post.title %>','<%= posts[i].username %>','data:image/png;base64,<%= posts[i].img %>')">Mostrar  comentarios</a>
-                </div>
-
-                <div class="time_publish">
-                    <p>
-                        <%= posts[i].ago %>
-                    </p>
-                </div>
-            </div>
-            <% } %>
-
-
-
-
+                <% } %>
+        </div>
     </main>
 
     <%- include('templates/footer.ejs') %>

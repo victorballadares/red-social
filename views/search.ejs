@@ -3,14 +3,15 @@
         <%= error %>
             <% } %>
                 <main>
+                    <a href="/main"><img src="/img/atras.png" alt="imagen para retroceder"></a>
                     <div class="user">
                         <% for(var i=0; i<users.length; i++) { %>
                             <a href="/main/profile/<%= users[i]._id %>">
                                 <div>
                                     <img src="data:image/png;base64,<%= users[i].img %>" alt="">
-                                    <h2>
+                                    <p>
                                         <%= users[i].username %>
-                                    </h2>
+                                    </p>
                                 </div>
                             </a>
                             <% } %>
@@ -26,5 +27,4 @@
                             </div>
                             <% } %>
                     </div>
-                
-              
+                    <%- include('templates/footer.ejs') %>
